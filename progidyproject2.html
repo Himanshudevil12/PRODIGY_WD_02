@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Stopwatch App</title>
+    <script>
+        let isRunning = false;
+let startTime;
+let lapStartTime;
+let lapNumber = 1;
+
+function startStop() {
+    if (isRunning) {
+        stop();
+    } else {
+        start();
+    }
+}
+
+function start() {
+    isRunning = true;
+    startTime = new Date() - (lapStartTime || 0);
+    document.getElementById("startStop").innerText = "Stop";
+    update();
+}
+
+function stop() {
+    isRunning = false;
+    lapStartTime = new Date() - startTime;
+    document.getElementById("startStop").innerText = "Start";
+}
+
+function reset() {
+    stop();
+    lapNumber = 1;
+    lapStartTime = null;
+    document.getElementById("display").innerText = "00:00:00";
+    document.getElementById("lapList").innerHTML = "";
+}
+
+function lap() {
+    if (isRunning) {
+        const lapTime = new Date() - startTime;
+        const formattedTime = formatTime(lapTime);
+        const lapItem = document.createElement("li");
+        lapItem.innerText = `Lap ${lapNumber++}: ${formattedTime}`;
+        document.getElementById("lapList").appendChild(lapItem);
+        lapStartTime = new Date() - lapTime;
+    }
+}
+
+function update() {
+    if (isRunning) {
+        const elapsedTime = new Date() - startTime;
+        document.getElementById("display").innerText = formatTime(elapsedTime);
+        setTimeout(update, 10);
+    }
+}
+
+function formatTime(time) {
+    const date = new Date(time);
+    const minutes = date.getUTCMinutes().toString().padStart(2, "0");
+    const seconds = date.getUTCSeconds().toString().padStart(2, "0");
+    const milliseconds = Math.floor(date.getUTCMilliseconds() / 10).toString().padStart(2, "0");
+    return `${minutes}:${seconds}:${milliseconds}`;
+}</script>
+
+<style>
+    body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.stopwatch {
+    text-align: center;
+}
+
+#display {
+    font-size: 2em;
+    margin-bottom: 10px;
+}
+
+button {
+    font-size: 1em;
+    margin: 5px;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+#lapList {
+    list-style-type: none;
+    padding: 0;
+}
+
+</style>
+    
+</head>
+<body>
+    
+    <div class="stopwatch">
+        <div id="display">00:00:00</div>
+        <button id="startStop" onclick="startStop()">Start</button>
+        <button id="reset" onclick="reset()">Reset</button>
+        <button id="lap" onclick="lap()">Lap</button>   
+        <ul id="lapList"></ul>
+        <button id="print" onclick="print()">print</button>
+    
+    <button id="alert" onclick="alert()">verify</button>
+
+    </div> 
+    <script src="script.js">
+        void xmas();{
+            window.print();
+        }
+        void xxx();{
+            window.alert();
+        }
+    </script>
+</body>
+</html>
